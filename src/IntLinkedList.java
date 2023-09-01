@@ -101,11 +101,11 @@ public class IntLinkedList {
     // Removes all instances of val from the IntLinkedList
     public void removeAll(int val) {
         // YOUR CODE HERE
-        if (head.data == val) {
+        while (head != null && head.data == val){
             removeFirst();
         }
         IntNode current = head;
-        while(current != null){
+        while(current != null && current.next != null){
             if (current.next.data == val){
                 current.changeNext(current.next.next);
             }
@@ -118,13 +118,35 @@ public class IntLinkedList {
     // Reverses the IntLinkedList
     public void reverse() {
         // YOUR CODE HERE
+        IntNode first = head;
+        IntNode current = head.next;
+        while (current != null)
+        {
+            insertFirst(current.data);
+            current = current.next;
+        }
+        first.changeNext(null);
         return;
     }
 
     // Checks if the IntLinkedList contains a cycle
     public boolean hasCycle() {
         // YOUR CODE HERE
-        return false;
+        IntNode current = head;
+        IntNode current2 = head.next;
+        while (current != null)
+        {
+            while(current2 != null){
+                if (current2 == null){
+                    return false;
+                }
+                else if (current2 == current){
+                    return true;
+                }
+                current2 = current2.next;
+            }
+        }
+        return search(current.data);
     }
 
     public static void main(String[] args) {
@@ -265,66 +287,66 @@ public class IntLinkedList {
         list3.removeAll(6);
         System.out.println(list3); // null
 
-//        // --------------------------
-//        // Test 7: reverse
-//        // --------------------------
-//        System.out.println("-------------------");
-//        System.out.println("Test 7: reverse");
-//        System.out.println("Expected:");
-//        System.out.println("4 -> 2 -> 3 -> null");
-//        System.out.println("7 -> 3 -> 2 -> 4 -> null");
-//
-//        // Reverse the list: 3 -> 2 -> 4 -> null
-//        System.out.println("\nGot:");
-//        IntLinkedList list4 = new IntLinkedList();
-//        list4.insertLast(3);
-//        list4.insertLast(2);
-//        list4.insertLast(4);
-//        list4.reverse();
-//        System.out.println(list4); // 4 -> 2 -> 3 -> null
-//
-//        // Reverse the list: 4 -> 2 -> 3 -> 7 -> null
-//        list4.insertLast(7);
-//        list4.reverse();
-//        System.out.println(list4); // 7 -> 3 -> 2 -> 4 -> null
-//
-//        // --------------------------
-//        // Test8: hasCycle
-//        // --------------------------
-//        System.out.println("-------------------");
-//        System.out.println("Test 8: hasCycle");
-//        System.out.println("Expected:");
-//        System.out.println("true");
-//        System.out.println("true");
-//        System.out.println("false");
-//
-//        // Check a list with a cycle: 3 -> 2 -> 4 --|
-//        //                            ^-------------|
-//        System.out.println("\nGot:");
-//        IntLinkedList list5 = new IntLinkedList();
-//        list5.insertLast(3);
-//        list5.insertLast(2);
-//        list5.insertLast(4);
-//        list5.head.next.next.next = list5.head;
-//        System.out.println(list5.hasCycle()); // true
-//
-//        // Check a list with a cycle: 3 -> 2 -> 4 -> 5 --|
-//        //                                 ^-------------|
-//        list5 = new IntLinkedList();
-//        list5.insertLast(3);
-//        list5.insertLast(2);
-//        list5.insertLast(4);
-//        list5.insertLast(5);
-//        list5.head.next.next.next.next = list5.head.next;
-//        System.out.println(list5.hasCycle()); // true
-//
-//        // Check a list without a cycle: 3 -> 2 -> 4 -> 5 -> null
-//        list5 = new IntLinkedList();
-//        list5.insertLast(3);
-//        list5.insertLast(2);
-//        list5.insertLast(4);
-//        list5.insertLast(5);
-//        System.out.println(list5.hasCycle()); // false
+        // --------------------------
+        // Test 7: reverse
+        // --------------------------
+        System.out.println("-------------------");
+        System.out.println("Test 7: reverse");
+        System.out.println("Expected:");
+        System.out.println("4 -> 2 -> 3 -> null");
+        System.out.println("7 -> 3 -> 2 -> 4 -> null");
+
+        // Reverse the list: 3 -> 2 -> 4 -> null
+        System.out.println("\nGot:");
+        IntLinkedList list4 = new IntLinkedList();
+        list4.insertLast(3);
+        list4.insertLast(2);
+        list4.insertLast(4);
+        list4.reverse();
+        System.out.println(list4); // 4 -> 2 -> 3 -> null
+
+        // Reverse the list: 4 -> 2 -> 3 -> 7 -> null
+        list4.insertLast(7);
+        list4.reverse();
+        System.out.println(list4); // 7 -> 3 -> 2 -> 4 -> null
+
+        // --------------------------
+        // Test8: hasCycle
+        // --------------------------
+        System.out.println("-------------------");
+        System.out.println("Test 8: hasCycle");
+        System.out.println("Expected:");
+        System.out.println("true");
+        System.out.println("true");
+        System.out.println("false");
+
+        // Check a list with a cycle: 3 -> 2 -> 4 --|
+        //                            ^-------------|
+        System.out.println("\nGot:");
+        IntLinkedList list5 = new IntLinkedList();
+        list5.insertLast(3);
+        list5.insertLast(2);
+        list5.insertLast(4);
+        list5.head.next.next.next = list5.head;
+        System.out.println(list5.hasCycle()); // true
+
+        // Check a list with a cycle: 3 -> 2 -> 4 -> 5 --|
+        //                                 ^-------------|
+        list5 = new IntLinkedList();
+        list5.insertLast(3);
+        list5.insertLast(2);
+        list5.insertLast(4);
+        list5.insertLast(5);
+        list5.head.next.next.next.next = list5.head.next;
+        System.out.println(list5.hasCycle()); // true
+
+        // Check a list without a cycle: 3 -> 2 -> 4 -> 5 -> null
+        list5 = new IntLinkedList();
+        list5.insertLast(3);
+        list5.insertLast(2);
+        list5.insertLast(4);
+        list5.insertLast(5);
+        System.out.println(list5.hasCycle()); // false
     }
 }
 
